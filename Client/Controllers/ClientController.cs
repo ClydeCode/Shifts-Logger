@@ -1,8 +1,13 @@
-﻿
+﻿using API.Models;
+using System.Net.Http.Headers;
+
 namespace Client.Controllers
 {
     internal class ClientController
     {
+        TableVisualisationEngine TableVisualisationEngine = new();
+        static HttpClient client = new();
+
         internal void ShowMenu()
         {
             Console.Clear();
@@ -13,12 +18,12 @@ namespace Client.Controllers
             Console.WriteLine("5. Exit");
         }
 
-        internal void Navigate(int Option)
+        internal void Navigate(int option)
         {
-            switch (Option)
+            switch (option)
             {
                 case 1:
-                    ShowShift();
+                    ShowShifts();
                     break;
                 case 2:
                     AddShift();
@@ -38,9 +43,18 @@ namespace Client.Controllers
             }
         }
 
-        private void ShowShift()
+        private async void ShowShifts()
         {
-            throw new NotImplementedException();
+            client.BaseAddress = new Uri("https://localhost:44312/");
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(
+            new MediaTypeWithQualityHeaderValue("application/json"));
+
+            List<Shift> shifts = await GetAllShiftsAsync("api/shifts");
+
+            TableVisualisationEngine.Clear();
+            TableVisualisationEngine.Add(shifts);
+            TableVisualisationEngine.Print();
         }
 
         private void AddShift()
@@ -56,6 +70,18 @@ namespace Client.Controllers
         private void UpdateShift()
         {
             throw new NotImplementedException();
+        }
+
+        private async Task<List<Shift>> GetAllShiftsAsync(string path)
+        {
+            List<Shift> shifts = null;
+            HttpResponseMessage response = await client.GetAsync(path);
+
+            if (response.IsSuccessStatusCode)
+            {
+                shifts = await response.Content.ReadAsAsync<List<Shift>>();
+            }
+            return shifts;
         }
     }
 }
