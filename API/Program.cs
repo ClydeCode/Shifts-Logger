@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<ShiftContext>(opt =>
-    opt.UseInMemoryDatabase("ShiftLogger"));
+    opt.UseSqlServer("Server=(localdb)\test;Database=ShiftsLogger;Trusted_Connection=True"));
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "ShiftLoggerAPI", Version = "v1" });
