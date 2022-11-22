@@ -1,5 +1,7 @@
 ﻿using ConsoleTableExt;
 
+using API.Models;
+
 namespace Client
 {
     internal class TableVisualisationEngine
@@ -15,9 +17,9 @@ namespace Client
                 .ExportAndWriteLine();
         }
 
-        internal void Add(List<API.Models.Shift> List)
+        internal void Add(List<Shift> List)
         {
-            foreach (API.Models.Shift Entity in List)
+            foreach (Shift Entity in List)
             {
                 TableData.Add(
                     new List<object>
