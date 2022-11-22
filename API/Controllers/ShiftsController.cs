@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Shifts_Logger.Models;
+using API.Models;
 
-namespace Shifts_Logger.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
