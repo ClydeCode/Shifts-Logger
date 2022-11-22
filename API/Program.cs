@@ -1,3 +1,4 @@
+using ConfigurationManager = System.Configuration.ConfigurationManager;
 using Microsoft.EntityFrameworkCore;
 using API.Models;
 
@@ -7,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<ShiftContext>(opt =>
-    opt.UseSqlServer("Server=(localdb)\test;Database=ShiftsLogger;Trusted_Connection=True"));
+    opt.UseSqlServer(ConfigurationManager.AppSettings.Get("connectionString")));
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "ShiftLoggerAPI", Version = "v1" });
