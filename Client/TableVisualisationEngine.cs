@@ -17,19 +17,19 @@ namespace Client
                 .ExportAndWriteLine();
         }
 
-        internal void Add(List<Shift> List)
+        internal void Add(List<Shift> list)
         {
-            foreach (Shift Entity in List)
+            foreach (Shift entity in list)
             {
                 TableData.Add(
                     new List<object>
                     {
-                        Entity.ShiftID,
-                        Entity.Start,
-                        Entity.End,
-                        Entity.Pay,
-                        Entity.Minutes,
-                        Entity.Location
+                        entity.ShiftID,
+                        entity.Start,
+                        entity.End,
+                        entity.Pay,
+                        entity.Minutes,
+                        entity.Location
                     }
                 );
             }

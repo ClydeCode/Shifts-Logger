@@ -1,18 +1,17 @@
-﻿
-namespace Client
+﻿namespace Client
 {
     internal class UserInput
     {
-        static internal int GetInt(string Title)
+        static internal int GetInt(string title)
         {
             int x = 0;
 
             while (x == 0)
             {
-                Console.WriteLine($"\nInput [{Title}]: ");
-                string? Input = Console.ReadLine();
+                Console.WriteLine($"\nInput [{title}]: ");
+                string? input = Console.ReadLine();
 
-                Int32.TryParse(Input, out x);
+                Int32.TryParse(input, out x);
 
                 if (x == 0) Console.WriteLine("Wrong format!");
             }
@@ -20,17 +19,17 @@ namespace Client
             return x;
         }
 
-        static internal string GetString(string Title)
+        static internal string GetString(string title)
         {
-            string? Input = "";
+            string? input = "";
 
-            while (Input == "")
+            while (input == "")
             {
-                Console.WriteLine($"Input [{Title}]: ");
-                Input = Console.ReadLine();
+                Console.WriteLine($"Input [{title}]: ");
+                input = Console.ReadLine();
             }
 
-            return Input;
+            return input;
         }
     }
 }
