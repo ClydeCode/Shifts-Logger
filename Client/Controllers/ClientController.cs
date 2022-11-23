@@ -50,8 +50,9 @@ namespace Client.Controllers
             client.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/json"));
 
-            List<Shift> shifts = await GetAllShiftsAsync("api/shifts");
+            List<Shift> shifts = GetAllShiftsAsync("api/shifts").Result;
 
+            Console.Clear();
             TableVisualisationEngine.Clear();
             TableVisualisationEngine.Add(shifts);
             TableVisualisationEngine.Print();
