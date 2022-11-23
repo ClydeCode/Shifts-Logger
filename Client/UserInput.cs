@@ -38,13 +38,15 @@ namespace Client
             return value;
         }
         
-        static internal DateTime GetDate()
+        static internal DateTime GetDate(string title)
         {
             DateTime date;
 
+            Console.WriteLine($"\nInput [{title}]: ");
+
             while (true)
             {
-                Console.WriteLine("Type Date <yyyy-MM-dd HH:mm>:");
+                Console.WriteLine("<yyyy-MM-dd HH:mm>:");
                 string? input = Console.ReadLine();
 
                 if (!DateTime.TryParse(input, out date))
