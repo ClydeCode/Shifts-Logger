@@ -1,4 +1,6 @@
-﻿namespace Client
+﻿using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
+
+namespace Client
 {
     internal class UserInput
     {
@@ -34,6 +36,26 @@
             }
 
             return value;
+        }
+        
+        static internal DateTime GetDate()
+        {
+            DateTime date;
+
+            while (true)
+            {
+                Console.WriteLine("Type Date <yyyy-MM-dd HH:mm>:");
+                string? input = Console.ReadLine();
+
+                if (!DateTime.TryParse(input, out date))
+                {
+                    Console.WriteLine("Wrong Date Format!");
+                    continue;
+                }
+                break;
+            }
+
+            return date;
         }
 
         static internal string GetString(string title)

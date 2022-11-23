@@ -67,10 +67,10 @@ namespace Client.Controllers
 
         private void AddShift()
         {
-            DateTime startTime = new DateTime(2021, 07, 26);
-            DateTime endTime = new DateTime(2021, 07, 27);
-            decimal pay = UserInput.GetInt("Pay");
-            decimal minutes = UserInput.GetInt("Minutes");
+            DateTime startTime = UserInput.GetDate();
+            DateTime endTime = UserInput.GetDate();
+            decimal pay = UserInput.GetDecimal("Pay");
+            decimal minutes = UserInput.GetDecimal("Minutes");
             string location = UserInput.GetString("Location");
 
             var shift = new Shift { 
