@@ -11,7 +11,6 @@ namespace Client.Controllers
         internal ClientController ()
         {
             client.BaseAddress = new Uri("https://localhost:44312/");
-            client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/json"));
         }
@@ -91,6 +90,16 @@ namespace Client.Controllers
                 shifts = await response.Content.ReadAsAsync<List<Shift>>();
             }
             return shifts;
+        }
+
+        private async Task<Uri> CreateShiftAsync(Shift shift)
+        {
+            HttpResponseMessage response = await client.PostAsJsonAsync(
+                "api/shifts", shift);
+
+            response.EnsureSuccessStatusCode();
+
+            return response.Headers.Location;
         }
     }
 }
