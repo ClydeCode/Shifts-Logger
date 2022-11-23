@@ -8,6 +8,14 @@ namespace Client.Controllers
         TableVisualisationEngine TableVisualisationEngine = new();
         static HttpClient client = new();
 
+        internal ClientController ()
+        {
+            client.BaseAddress = new Uri("https://localhost:44312/");
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(
+            new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
         internal void ShowMenu()
         {
             Console.Clear();
@@ -16,6 +24,14 @@ namespace Client.Controllers
             Console.WriteLine("3. Delete shift");
             Console.WriteLine("4. Update shift");
             Console.WriteLine("5. Exit");
+        }
+
+        internal void Print(List<Shift> shifts)
+        {
+            Console.Clear();
+            TableVisualisationEngine.Clear();
+            TableVisualisationEngine.Add(shifts);
+            TableVisualisationEngine.Print();
         }
 
         internal void Navigate(int option)
@@ -45,17 +61,9 @@ namespace Client.Controllers
 
         private async void ShowShifts()
         {
-            client.BaseAddress = new Uri("https://localhost:44312/");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-            new MediaTypeWithQualityHeaderValue("application/json"));
-
             List<Shift> shifts = GetAllShiftsAsync("api/shifts").Result;
 
-            Console.Clear();
-            TableVisualisationEngine.Clear();
-            TableVisualisationEngine.Add(shifts);
-            TableVisualisationEngine.Print();
+            Print(shifts);  
         }
 
         private void AddShift()
