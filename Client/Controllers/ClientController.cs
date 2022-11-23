@@ -67,7 +67,21 @@ namespace Client.Controllers
 
         private void AddShift()
         {
-            throw new NotImplementedException();
+            DateTime startTime = new DateTime(2021, 07, 26);
+            DateTime endTime = new DateTime(2021, 07, 27);
+            decimal pay = UserInput.GetInt("Pay");
+            decimal minutes = UserInput.GetInt("Minutes");
+            string location = UserInput.GetString("Location");
+
+            var shift = new Shift { 
+                Start = startTime,
+                End = endTime,
+                Pay = pay,
+                Minutes = minutes,
+                Location = location
+            };
+            
+            CreateShiftAsync(shift).Wait();
         }
 
         private void DeleteShift()
@@ -92,14 +106,24 @@ namespace Client.Controllers
             return shifts;
         }
 
-        private async Task<Uri> CreateShiftAsync(Shift shift)
+        private async Task CreateShiftAsync(Shift shift)
         {
-            HttpResponseMessage response = await client.PostAsJsonAsync(
-                "api/shifts", shift);
+            try
+            {
+                HttpResponseMessage response = await client.PostAsJsonAsync(
+                    "api/shifts", shift);
 
-            response.EnsureSuccessStatusCode();
+                response.EnsureSuccessStatusCode();
 
-            return response.Headers.Location;
+                Console.WriteLine("Operation was successful!");
+            }
+            catch (HttpRequestException e)
+            {
+                if (e.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                    Console.WriteLine("ERROR: Start date can't be greater than End date...");
+                else
+                    Console.WriteLine(e);
+            }
         }
     }
 }
