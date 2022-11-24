@@ -21,6 +21,21 @@ namespace Client
             return value;
         }
 
+        static internal string GetIntToString(string title)
+        {
+            string? input = null;
+
+            while (!Int32.TryParse(input, out _))
+            {
+                Console.WriteLine($"\nInput [{title}]: ");
+                input = Console.ReadLine();
+
+                if (!Int32.TryParse(input, out _)) Console.WriteLine("Wrong format!");
+            }
+
+            return input;
+        }
+
         static internal decimal GetDecimal(string title)
         {
             decimal value = 0;
