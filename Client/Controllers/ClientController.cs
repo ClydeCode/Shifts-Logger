@@ -108,7 +108,17 @@ namespace Client.Controllers
                 Location = location
             };
 
-            CreateShiftAsync(shift).Wait();
+            var response = CreateShiftAsync(shift).Result;
+
+            Console.WriteLine(response);
+
+            if (response == HttpStatusCode.Created)
+                Console.WriteLine("SUCCES: Record was created");
+            else if (response == HttpStatusCode.BadRequest)
+                Console.WriteLine(@"ERROR: This record wasn't created!
+                                    Check if End date is greater than Start date...");
+            else
+                Console.WriteLine("ERROR");
         }
 
         private void DeleteShift()
@@ -185,24 +195,12 @@ namespace Client.Controllers
             return shift;
         }
 
-        private async Task CreateShiftAsync(Shift shift)
+        private async Task<HttpStatusCode> CreateShiftAsync(Shift shift)
         {
-            try
-            {
-                HttpResponseMessage response = await client.PostAsJsonAsync(
-                    "api/shifts", shift);
+            HttpResponseMessage response = await client.PostAsJsonAsync(
+                "api/shifts", shift);
 
-                response.EnsureSuccessStatusCode();
-
-                Console.WriteLine("Operation was successful!");
-            }
-            catch (HttpRequestException e)
-            {
-                if (e.StatusCode == HttpStatusCode.BadRequest)
-                    Console.WriteLine("ERROR: Start date can't be greater than End date...");
-                else
-                    Console.WriteLine(e);
-            }
+            return response.StatusCode;
         }
 
         private async Task<HttpStatusCode> DeleteShiftAsync(string id)
