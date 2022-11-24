@@ -53,7 +53,7 @@ namespace Client
             return value;
         }
         
-        static internal DateTime GetDate(string title)
+        static internal DateTime GetDate(string title, DateTime secondDate = new())
         {
             DateTime date;
 
@@ -69,6 +69,13 @@ namespace Client
                     Console.WriteLine("Wrong Date Format!");
                     continue;
                 }
+
+                if (!(date.CompareTo(secondDate) > 0))
+                {
+                    Console.WriteLine("EndTime must be greater than StartTime!\n");
+                    continue;
+                }
+
                 break;
             }
 

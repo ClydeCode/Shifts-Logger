@@ -93,7 +93,7 @@ namespace Client.Controllers
         private void AddShift()
         {
             DateTime startTime = UserInput.GetDate("Start Time");
-            DateTime endTime = UserInput.GetDate("End Time");
+            DateTime endTime = UserInput.GetDate("End Time", startTime);
             decimal pay = UserInput.GetDecimal("Pay");
             decimal minutes = UserInput.GetDecimal("Minutes");
             string location = UserInput.GetString("Location");
