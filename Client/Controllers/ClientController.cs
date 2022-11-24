@@ -182,7 +182,7 @@ namespace Client.Controllers
             }
             catch (HttpRequestException e)
             {
-                if (e.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                if (e.StatusCode == HttpStatusCode.BadRequest)
                     Console.WriteLine("ERROR: Start date can't be greater than End date...");
                 else
                     Console.WriteLine(e);
