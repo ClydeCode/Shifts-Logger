@@ -87,7 +87,16 @@ namespace Client.Controllers
 
         private void DeleteShift()
         {
-            throw new NotImplementedException();
+            ShowShifts();
+
+            string id = UserInput.GetIntToString("ID");
+
+            var response = DeleteShiftAsync(id).Result;
+
+            if (response == HttpStatusCode.NotFound)
+                Console.WriteLine("ERROR: This record doesn't exist!");
+            else if (response == HttpStatusCode.NoContent)
+                Console.WriteLine("SUCCESS: Record was deleted");
         }
 
         private void UpdateShift()
