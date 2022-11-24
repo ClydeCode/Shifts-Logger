@@ -123,6 +123,8 @@ namespace Client.Controllers
                 Console.WriteLine("ERROR: This record doesn't exist!");
             else if (response == HttpStatusCode.NoContent)
                 Console.WriteLine("SUCCESS: Record was deleted");
+            else
+                Console.WriteLine("ERROR");
         }
 
         private void UpdateShift()
@@ -153,10 +155,10 @@ namespace Client.Controllers
 
             var response = UpdateShiftAsync(shift).Result;
 
-            if (response == HttpStatusCode.NotFound)
-                Console.WriteLine("ERROR: This record doesn't exist!");
-            else if (response == HttpStatusCode.NoContent)
+            if (response == HttpStatusCode.NoContent)
                 Console.WriteLine("SUCCESS: Record was updated");
+            else
+                Console.WriteLine("ERROR");
         }
 
         private async Task<List<Shift>> GetAllShiftsAsync(string path)
