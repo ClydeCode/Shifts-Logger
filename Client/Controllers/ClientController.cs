@@ -1,4 +1,5 @@
 ﻿using API.Models;
+using System.Net;
 using System.Net.Http.Headers;
 
 namespace Client.Controllers
@@ -8,7 +9,7 @@ namespace Client.Controllers
         TableVisualisationEngine TableVisualisationEngine = new();
         static HttpClient client = new();
 
-        internal ClientController ()
+        internal ClientController()
         {
             client.BaseAddress = new Uri("https://localhost:44312/");
             client.DefaultRequestHeaders.Accept.Add(
@@ -62,7 +63,7 @@ namespace Client.Controllers
         {
             List<Shift> shifts = GetAllShiftsAsync("api/shifts").Result;
 
-            Print(shifts);  
+            Print(shifts);
         }
 
         private void AddShift()
@@ -73,14 +74,14 @@ namespace Client.Controllers
             decimal minutes = UserInput.GetDecimal("Minutes");
             string location = UserInput.GetString("Location");
 
-            var shift = new Shift { 
+            var shift = new Shift {
                 Start = startTime,
                 End = endTime,
                 Pay = pay,
                 Minutes = minutes,
                 Location = location
             };
-            
+
             CreateShiftAsync(shift).Wait();
         }
 
@@ -124,6 +125,14 @@ namespace Client.Controllers
                 else
                     Console.WriteLine(e);
             }
+        }
+
+        private async Task<HttpStatusCode> DeleteShiftAsync(string id)
+        {
+            HttpResponseMessage response = await client.DeleteAsync(
+                $"api/shifts/{id}");
+
+            return response.StatusCode;
         }
     }
 }
