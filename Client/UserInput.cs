@@ -87,5 +87,20 @@ namespace Client
 
             return input;
         }
+
+        static internal string GetUpdateOptionString()
+        {
+            string[] options = { "1", "2", "3", "4", "5" };
+
+            string? input = "";
+
+            while (!Array.Exists(options, element => element == input))
+            {
+                Console.WriteLine($"Input [Option]: ");
+                input = Console.ReadLine();
+            }
+
+            return input;
+        }
     }
 }
