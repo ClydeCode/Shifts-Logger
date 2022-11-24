@@ -1,4 +1,5 @@
 ﻿using API.Models;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System.Net;
 using System.Net.Http.Headers;
 
@@ -101,7 +102,47 @@ namespace Client.Controllers
 
         private void UpdateShift()
         {
-            throw new NotImplementedException();
+            ShowShifts();
+
+            string id = UserInput.GetIntToString("ID");
+
+            Shift shift = GetShiftAsync(id).Result;
+
+            Console.WriteLine(@"What do you want to UPDATE: 
+                                1. Start Date
+                                2. End Date
+                                3. Pay
+                                4. Minutes
+                                5. Location"
+            );
+
+            string option = UserInput.GetUpdateOptionString();
+
+            switch (option)
+            {
+                case "1":
+                    shift.Start = UserInput.GetDate("Start date");
+                    break;
+                case "2":
+                    shift.End = UserInput.GetDate("End date");
+                    break;
+                case "3":
+                    shift.Pay = UserInput.GetDecimal("Pay");
+                    break;
+                case "4":
+                    shift.Minutes = UserInput.GetDecimal("Minutes");
+                    break;
+                case "5":
+                    shift.Location = UserInput.GetString("Location");
+                    break;
+            }
+
+            var response = UpdateShiftAsync(shift).Result;
+
+            if (response == HttpStatusCode.NotFound)
+                Console.WriteLine("ERROR: This record doesn't exist!");
+            else if (response == HttpStatusCode.NoContent)
+                Console.WriteLine("SUCCESS: Record was updated");
         }
 
         private async Task<List<Shift>> GetAllShiftsAsync(string path)
@@ -114,6 +155,18 @@ namespace Client.Controllers
                 shifts = await response.Content.ReadAsAsync<List<Shift>>();
             }
             return shifts;
+        }
+
+        private async Task<Shift> GetShiftAsync(string id)
+        {
+            Shift shift = null;
+            HttpResponseMessage response = await client.GetAsync($"api/shifts/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                shift = await response.Content.ReadAsAsync<Shift>();
+            }
+            return shift;
         }
 
         private async Task CreateShiftAsync(Shift shift)
@@ -147,7 +200,7 @@ namespace Client.Controllers
         private async Task<HttpStatusCode> UpdateShiftAsync(Shift shift)
         {
             HttpResponseMessage response = await client.PutAsJsonAsync(
-                $"shifts/api/{shift.ShiftID}", shift);
+                $"api/shifts/{shift.ShiftID}", shift);
 
             return response.StatusCode;
         }
