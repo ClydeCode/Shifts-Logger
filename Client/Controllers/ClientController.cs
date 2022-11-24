@@ -143,5 +143,13 @@ namespace Client.Controllers
 
             return response.StatusCode;
         }
+
+        private async Task<HttpStatusCode> UpdateShiftAsync(Shift shift)
+        {
+            HttpResponseMessage response = await client.PutAsJsonAsync(
+                $"shifts/api/{shift.ShiftID}", shift);
+
+            return response.StatusCode;
+        }
     }
 }
