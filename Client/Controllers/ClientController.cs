@@ -108,6 +108,12 @@ namespace Client.Controllers
 
             Shift shift = GetShiftAsync(id).Result;
 
+            if (shift == null)
+            {
+                Console.WriteLine("ERROR: This record doesn't exist");
+                return;
+            }
+
             Console.WriteLine(@"What do you want to UPDATE: 
                                 1. Start Date
                                 2. End Date
