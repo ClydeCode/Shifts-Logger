@@ -1,6 +1,4 @@
 ﻿using API.Models;
-using Microsoft.CodeAnalysis.Options;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System.Net;
 using System.Net.Http.Headers;
 
@@ -109,8 +107,6 @@ namespace Client.Controllers
             };
 
             var response = CreateShiftAsync(shift).Result;
-
-            Console.WriteLine(response);
 
             if (response == HttpStatusCode.Created)
                 Console.WriteLine("SUCCES: Record was created");
