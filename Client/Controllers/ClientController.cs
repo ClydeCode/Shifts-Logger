@@ -1,4 +1,5 @@
 ﻿using API.Models;
+using Microsoft.CodeAnalysis.Options;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System.Net;
 using System.Net.Http.Headers;
@@ -58,6 +59,30 @@ namespace Client.Controllers
                     Console.WriteLine("Wrong Option!");
                     break;
             }
+        }
+
+        private Shift ChangePropertyOfShift(Shift shift, string option)
+        {
+            switch (option)
+            {
+                case "1":
+                    shift.Start = UserInput.GetDate("Start date");
+                    break;
+                case "2":
+                    shift.End = UserInput.GetDate("End date");
+                    break;
+                case "3":
+                    shift.Pay = UserInput.GetDecimal("Pay");
+                    break;
+                case "4":
+                    shift.Minutes = UserInput.GetDecimal("Minutes");
+                    break;
+                case "5":
+                    shift.Location = UserInput.GetString("Location");
+                    break;
+            }
+
+            return shift;
         }
 
         private async void ShowShifts()
@@ -124,24 +149,7 @@ namespace Client.Controllers
 
             string option = UserInput.GetUpdateOptionString();
 
-            switch (option)
-            {
-                case "1":
-                    shift.Start = UserInput.GetDate("Start date");
-                    break;
-                case "2":
-                    shift.End = UserInput.GetDate("End date");
-                    break;
-                case "3":
-                    shift.Pay = UserInput.GetDecimal("Pay");
-                    break;
-                case "4":
-                    shift.Minutes = UserInput.GetDecimal("Minutes");
-                    break;
-                case "5":
-                    shift.Location = UserInput.GetString("Location");
-                    break;
-            }
+            shift = ChangePropertyOfShift(shift, option);
 
             var response = UpdateShiftAsync(shift).Result;
 
