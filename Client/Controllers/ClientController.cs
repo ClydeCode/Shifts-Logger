@@ -110,11 +110,8 @@ namespace Client.Controllers
 
             if (response == HttpStatusCode.Created)
                 Console.WriteLine("SUCCES: Record was created");
-            else if (response == HttpStatusCode.BadRequest)
-                Console.WriteLine(@"ERROR: This record wasn't created!
-                                    Check if End date is greater than Start date...");
             else
-                Console.WriteLine("ERROR");
+                Console.WriteLine("ERROR: Record wasn't created!");
         }
 
         private void DeleteShift()
